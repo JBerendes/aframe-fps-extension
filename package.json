@@ -1,6 +1,6 @@
 {
   "name": "aframe-fps-extension",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "An A-Frame extension for smooth WASD, strafe, up/down, shift-run controls.",
   "main": "index.js",
   "keywords": [
