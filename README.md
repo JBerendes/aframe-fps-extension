@@ -1,2 +1,21 @@
-# aframe-fps-extension
-An A-Frame extension for smooth WASD, strafe, up/down, shift-run controls.
+# A-Frame FPS Extension
+
+A custom A-Frame component for smooth WASD movement, including strafe, up/down, and shift to run, all in the camera's local space.
+
+## Installation and Usage
+
+Include A-Frame and the component script. Make an entity that wraps your camera, then add `custom-fps-controls`.
+
+Or load from `unpkg` in an HTML file:
+
+```html
+<script src="https://unpkg.com/aframe@1.4.0/dist/aframe.min.js"></script>
+<script src="https://unpkg.com/aframe-fps-extension/dist/aframe-fps-extension.js"></script>
+
+## Controls
+
+- Press W/S = forward/backward
+- Press A/D = strafe left/right
+- Press Space = move up (local up)
+- Press Ctrl = move down (local down)
+- Shift = run multiplier

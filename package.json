@@ -1,0 +1,15 @@
+{
+  "name": "aframe-fps-extension",
+  "version": "1.0.0",
+  "description": "An A-Frame extension for smooth WASD, strafe, up/down, shift-run controls.",
+  "main": "index.js",
+  "keywords": [
+    "aframe",
+    "aframe-component",
+    "fps",
+    "keyboard",
+    "mouse"
+  ],
+  "author": "Jacob Berendes",
+  "license": "MIT"
+}
