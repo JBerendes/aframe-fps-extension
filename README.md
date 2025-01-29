@@ -13,7 +13,7 @@ Or load from `unpkg` in an HTML file:
 <html>
   <head>
     <script src="https://unpkg.com/aframe@1.4.0/dist/aframe.min.js"></script>
-    <script src="https://unpkg.com/aframe-fps-extension@1.0.2/index.js"></script>
+    <script src="https://unpkg.com/aframe-fps-extension@1.0.3/index.js"></script>
   </head>
   <body>
     <a-scene>

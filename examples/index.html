@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>A-Frame FPS Controls Example</title>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="../index.js"></script>
+    <script src="https://unpkg.com/aframe-mirror-component/dist/aframe-mirror-component.min.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const sky = document.querySelector('a-sky');
+        const images = ['#lake', '#city', '#cubes', '#sechelt'];
+        let currentIndex = 0;
+
+        document.querySelector('#mirror-cube').addEventListener('click', function () {
+          currentIndex = (currentIndex + 1) % images.length;
+          sky.setAttribute('src', images[currentIndex]);
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <a-scene>
+      <a-assets>
+        <!-- Images. -->
+        <img id="lake" crossorigin="anonymous" src="https://aframe.io/aframe/examples/showcase/composite/lake.jpg">
+        <img id="city" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/city.jpg">
+        <img id="city-thumb" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/thumb-city.jpg">
+        <img id="cubes" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/cubes.jpg">
+        <img id="cubes-thumb" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/thumb-cubes.jpg">
+        <img id="sechelt" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/sechelt.jpg">
+        <img id="sechelt-thumb" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/thumb-sechelt.jpg">
+      </a-assets>
+      <!-- start with a sky -->
+      <a-sky src="#sechelt"></a-sky>
+
+      <!-- We may want a ground plane -->
+      <!-- <a-plane rotation="-90 0 0" width="100" height="100" color="#346634"></a-plane> -->
+      
+      <a-entity position="0 .6 -1.5" id="mirror-cube">
+        <a-box color="#348888" mirror="resolution: 1024; distance: 1200; interval: 250; repeat: true"></a-box>
+        <a-entity position="-.5 .5 .5" text="align: center; value: o; color: white;"></a-entity>
+        <a-entity position=".5 .5 .5" text="align: center; value: o; color: white;"></a-entity>
+        <a-entity position="-.5 -.5 .5" text="align: center; value: o; color: white;"></a-entity>
+        <a-entity position=".5 -.5 .5" text="align: center; value: o; color: white;"></a-entity>
+        <a-entity position="0 0 .5" text="align: center; value: You can fly!; color: #34aaaa; opacity: .75; wrapCount: 14;"></a-entity>
+        <a-entity position="0 0 .51" text="align: center; value: You can fly!; color: #3434aa; opacity: .75; wrapCount: 14;"></a-entity>
+        <a-entity position="0 0 .52" text="align: center; value: You can fly!; color: #aa34aa; opacity: .75; wrapCount: 14;"></a-entity>
+        <a-entity position="0 0 .53" text="align: center; value: You can fly!; color: #aa3434; opacity: .75; wrapCount: 14;"></a-entity>
+        <a-entity position="0 0 .54" text="align: center; value: You can fly!; color: #aaaa34; opacity: .75; wrapCount: 14;"></a-entity>
+        <a-entity position="0 0 .55" text="align: center; value: You can fly!; color: #bbb; opacity: .75; wrapCount: 14;"></a-entity>
+      </a-entity>
+
+      <!-- Add the entity with the custom FPS controls -->
+      <a-entity id="rig" custom-fps-controls position="0 .5 0">
+        <a-entity camera look-controls>
+          <a-cursor geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.035" material="color: #565656; shader: flat"></a-cursor>
+          <!-- Add a head, well a giant eyeball, to the camera -->
+          <a-entity id="eye" position="0 0 .05">
+            <a-sphere position="0 0 0" radius=".2" color="#888888"></a-sphere>
+            <a-sphere position="0 0 -.075" radius=".15" color="#6666dd"></a-sphere>
+            <a-sphere position="0 0 -.14" radius=".1" color="#111"></a-sphere>
+          </a-entity>
+        </a-entity>
+      </a-entity>
+    </a-scene>
+  </body>
+</html>
