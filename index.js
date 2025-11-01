@@ -9,20 +9,51 @@ AFRAME.registerComponent('custom-fps-controls', {
 
   init: function () {
     this.keys = {};
+    this.isListening = false;
     this.forwardVec = new THREE.Vector3();
     this.rightVec = new THREE.Vector3();
     this.localUpVec = new THREE.Vector3();
     this.worldUp = new THREE.Vector3(0, 1, 0);
+
+    this.onKeyDown = this.onKeyDown.bind(this);
+    this.onKeyUp = this.onKeyUp.bind(this);
 
     // Expect a camera child for look-controls
     this.cameraEl = this.el.querySelector('[camera]');
     if (!this.cameraEl) {
       console.warn('No <a-entity camera> found as a child of this rig!');
     }
+  },
 
-    // Listen to key events
-    window.addEventListener('keydown', e => { this.keys[e.code] = true; });
-    window.addEventListener('keyup',   e => { this.keys[e.code] = false; });
+  play: function () {
+    if (this.isListening) return;
+    window.addEventListener('keydown', this.onKeyDown);
+    window.addEventListener('keyup', this.onKeyUp);
+    this.isListening = true;
+  },
+
+  pause: function () {
+    if (!this.isListening) return;
+    window.removeEventListener('keydown', this.onKeyDown);
+    window.removeEventListener('keyup', this.onKeyUp);
+    this.isListening = false;
+    this.clearKeys();
+  },
+
+  remove: function () {
+    this.pause();
+  },
+
+  onKeyDown: function (event) {
+    this.keys[event.code] = true;
+  },
+
+  onKeyUp: function (event) {
+    this.keys[event.code] = false;
+  },
+
+  clearKeys: function () {
+    this.keys = {};
   },
 
   tick: function (time, timeDelta) {
