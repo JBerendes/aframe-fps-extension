@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
+
+## [1.0.6] - 2025-11-01
 ### Fixed
 - Allow `custom-fps-controls` to fall back to the rig's orientation when no camera component is found so rigs without embedded cameras still move.
 
