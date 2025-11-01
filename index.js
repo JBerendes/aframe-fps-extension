@@ -61,7 +61,6 @@ AFRAME.registerComponent('custom-fps-controls', {
       this.cameraEl = this.resolveCameraEl();
       if (!this.cameraEl) {
         this.logMissingCamera();
-        return;
       }
     }
 
@@ -73,8 +72,13 @@ AFRAME.registerComponent('custom-fps-controls', {
       moveDistance *= this.data.runMultiplier;
     }
 
-    // 1) Get forward vector from the camera
-    this.cameraEl.object3D.getWorldDirection(this.forwardVec);
+    var directionSource = this.getDirectionSource();
+    if (!directionSource) {
+      return;
+    }
+
+    // 1) Get forward vector from the camera (or rig fallback)
+    directionSource.getWorldDirection(this.forwardVec);
     this.forwardVec.negate();  // Invert if needed to make "forward" face -Z
 
     // 2) Compute right vector via cross(forward, worldUp)
@@ -124,11 +128,23 @@ AFRAME.registerComponent('custom-fps-controls', {
     return null;
   },
 
+  getDirectionSource: function () {
+    if (this.cameraEl && this.cameraEl.object3D) {
+      return this.cameraEl.object3D;
+    }
+
+    if (this.el && this.el.object3D) {
+      return this.el.object3D;
+    }
+
+    return null;
+  },
+
   logMissingCamera: function () {
     if (this.warnedNoCamera) {
       return;
     }
-    console.warn('No camera found for custom-fps-controls. Movement will not be relative to view direction.');
+    console.warn('No camera found for custom-fps-controls. Falling back to rig orientation for movement.');
     this.warnedNoCamera = true;
   }
 });
