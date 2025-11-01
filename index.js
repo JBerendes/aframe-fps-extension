@@ -9,6 +9,7 @@ AFRAME.registerComponent('custom-fps-controls', {
 
   init: function () {
     this.keys = {};
+    this.isListening = false;
     this.forwardVec = new THREE.Vector3();
     this.rightVec = new THREE.Vector3();
     this.localUpVec = new THREE.Vector3();
@@ -25,13 +26,17 @@ AFRAME.registerComponent('custom-fps-controls', {
   },
 
   play: function () {
+    if (this.isListening) return;
     window.addEventListener('keydown', this.onKeyDown);
     window.addEventListener('keyup', this.onKeyUp);
+    this.isListening = true;
   },
 
   pause: function () {
+    if (!this.isListening) return;
     window.removeEventListener('keydown', this.onKeyDown);
     window.removeEventListener('keyup', this.onKeyUp);
+    this.isListening = false;
     this.clearKeys();
   },
 
