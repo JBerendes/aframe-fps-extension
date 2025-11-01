@@ -18,11 +18,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [1.0.2] - 2025-01-22
 ### Changed
-- Corrected the package metadata and README instructions to point at version 1.0.2 of the published bundle.
-
-## [1.0.1] - 2025-01-22
-### Changed
 - Expanded the README HTML example with a full document skeleton and clearer usage guidance for the CDN build.
+- Corrected the package metadata and README instructions to point at version 1.0.2 of the published bundle.
+- Noted that 1.0.1 was skipped when aligning package metadata with the published release.
 
 ## [1.0.0] - 2025-01-22
 ### Added
