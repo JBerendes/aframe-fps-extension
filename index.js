@@ -14,15 +14,41 @@ AFRAME.registerComponent('custom-fps-controls', {
     this.localUpVec = new THREE.Vector3();
     this.worldUp = new THREE.Vector3(0, 1, 0);
 
+    this.onKeyDown = this.onKeyDown.bind(this);
+    this.onKeyUp = this.onKeyUp.bind(this);
+
     // Expect a camera child for look-controls
     this.cameraEl = this.el.querySelector('[camera]');
     if (!this.cameraEl) {
       console.warn('No <a-entity camera> found as a child of this rig!');
     }
+  },
 
-    // Listen to key events
-    window.addEventListener('keydown', e => { this.keys[e.code] = true; });
-    window.addEventListener('keyup',   e => { this.keys[e.code] = false; });
+  play: function () {
+    window.addEventListener('keydown', this.onKeyDown);
+    window.addEventListener('keyup', this.onKeyUp);
+  },
+
+  pause: function () {
+    window.removeEventListener('keydown', this.onKeyDown);
+    window.removeEventListener('keyup', this.onKeyUp);
+    this.clearKeys();
+  },
+
+  remove: function () {
+    this.pause();
+  },
+
+  onKeyDown: function (event) {
+    this.keys[event.code] = true;
+  },
+
+  onKeyUp: function (event) {
+    this.keys[event.code] = false;
+  },
+
+  clearKeys: function () {
+    this.keys = {};
   },
 
   tick: function (time, timeDelta) {
