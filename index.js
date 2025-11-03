@@ -18,10 +18,10 @@ AFRAME.registerComponent('custom-fps-controls', {
     this.onKeyDown = this.onKeyDown.bind(this);
     this.onKeyUp = this.onKeyUp.bind(this);
 
-    // Expect a camera child for look-controls
-    this.cameraEl = this.el.querySelector('[camera]');
+    this.warnedNoCamera = false;
+    this.cameraEl = this.resolveCameraEl();
     if (!this.cameraEl) {
-      console.warn('No <a-entity camera> found as a child of this rig!');
+      this.logMissingCamera();
     }
   },
 
@@ -57,7 +57,12 @@ AFRAME.registerComponent('custom-fps-controls', {
   },
 
   tick: function (time, timeDelta) {
-    if (!this.cameraEl) return;
+    if (!this.cameraEl) {
+      this.cameraEl = this.resolveCameraEl();
+      if (!this.cameraEl) {
+        this.logMissingCamera();
+      }
+    }
 
     // base movement distance this frame:
     let moveDistance = (this.data.speed * timeDelta) / 1000;
@@ -67,8 +72,13 @@ AFRAME.registerComponent('custom-fps-controls', {
       moveDistance *= this.data.runMultiplier;
     }
 
-    // 1) Get forward vector from the camera
-    this.cameraEl.object3D.getWorldDirection(this.forwardVec);
+    var directionSource = this.getDirectionSource();
+    if (!directionSource) {
+      return;
+    }
+
+    // 1) Get forward vector from the camera (or rig fallback)
+    directionSource.getWorldDirection(this.forwardVec);
     this.forwardVec.negate();  // Invert if needed to make "forward" face -Z
 
     // 2) Compute right vector via cross(forward, worldUp)
@@ -98,5 +108,43 @@ AFRAME.registerComponent('custom-fps-controls', {
     if (this.keys['ControlLeft'] || this.keys['ControlRight']) {
       this.el.object3D.position.addScaledVector(this.localUpVec, -moveDistance);
     }
+  },
+
+  resolveCameraEl: function () {
+    var cameraChild = this.el.querySelector('[camera]');
+    if (cameraChild) {
+      return cameraChild;
+    }
+
+    if (this.el.components && this.el.components.camera) {
+      return this.el;
+    }
+
+    var sceneEl = this.el.sceneEl;
+    if (sceneEl && sceneEl.camera && sceneEl.camera.el) {
+      return sceneEl.camera.el;
+    }
+
+    return null;
+  },
+
+  getDirectionSource: function () {
+    if (this.cameraEl && this.cameraEl.object3D) {
+      return this.cameraEl.object3D;
+    }
+
+    if (this.el && this.el.object3D) {
+      return this.el.object3D;
+    }
+
+    return null;
+  },
+
+  logMissingCamera: function () {
+    if (this.warnedNoCamera) {
+      return;
+    }
+    console.warn('No camera found for custom-fps-controls. Falling back to rig orientation for movement.');
+    this.warnedNoCamera = true;
   }
 });

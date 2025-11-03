@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+## [1.0.6] - 2025-11-01
+### Fixed
+- Allow `custom-fps-controls` to fall back to the rig's orientation when no camera component is found so rigs without embedded cameras still move.
+
 ## [1.0.5] - 2025-11-01
 ### Fixed
 - Guard keyboard listener registration in `custom-fps-controls` and clear key state when the component pauses or is removed to prevent leaks and stale input.
