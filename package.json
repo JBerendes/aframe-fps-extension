@@ -11,5 +11,12 @@
     "mouse"
   ],
   "author": "Jacob Berendes",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jberendes/aframe-fps-extension.git"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  }
 }
